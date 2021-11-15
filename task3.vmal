@@ -1,0 +1,75 @@
+# Task 3: Array Sum
+# Your goal for this task is to compute the sum of an array
+# of integers.
+
+# The array will be stored in memory
+# The location of arr[0] is SP
+# The location of arr[1] is SP+1
+# The location of arr[2] is SP+2
+# ... and so on
+
+# The size of the array N will be stored in SP-1
+
+# The sum of the array should be placed in location SP-2
+
+# The SP register may be initialized to any value
+2: 1024; # Initialize the SP register to 1024 (start of the array)
+# ALL other non-constant registers will be initialized to 0
+# regardless of any initializers you use.
+
+[1023]: 8; # N = 8 - the array has 8 elements
+
+[1024]: 1;  # arr[0] = 1
+[1025]: -2; # arr[1] = -2
+[1026]: 8;  # arr[2] = 8
+[1027]: 12; # arr[3] = 12
+[1028]: -5; # arr[4] = -5
+[1029]: 0;  # arr[5] = 0
+[1030]: 5;  # arr[6] = 5
+[1031]: 3;  # arr[7] = 3
+
+# For this example, the end value of memory location 1022 should be 22
+
+# Goal:
+#
+#   [SP-2] = [SP] + [SP+1] + ... + [SP+[SP-1]-1]
+#
+
+# Start your code here
+
+#INITIALIZE E TO ARRAY SIZE
+MV E, 2;
+ADD E, 7;
+SA E;
+RD;
+RB E;
+
+#INITIALIZE COUNTER TO FIRST ARRAY ELEMENT LOCATION
+MV C, 2;
+
+LBL BEGIN_LOOP;
+
+#PUT CURRENT ARRAY VALUE INTO A
+SA C;
+RD;
+RB A;
+
+#ADD A TO SUM
+ADD B, A;
+
+#INCREMENT ARRAY COUNTER
+ADD C, 6;
+
+#DECREMENT E TO CHECK IF ARRAY IS AT END
+ADD E, 7;
+SF E;
+BIZ END_LOOP;
+GO BEGIN_LOOP;
+LBL END_LOOP;
+
+#PUT ARRAY SUM INTO SP - 2 MEMORY LOCATION (1022)
+MV C, 2;
+ADD C, 7;
+ADD C, 7;
+
+SW C, B;
